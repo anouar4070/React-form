@@ -1,6 +1,18 @@
 export default function Signup() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const fd = new FormData(event.target);
+    // const enteredEmail = fd.get('email')
+    // const enteredPassword = fd.get('password')
+    const acquisitionChannel = fd.getAll('acquisition'); // to extract values of checkbox that have the same name
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+    console.log(data);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <h2>Welcome on board!</h2>
       <p>We just need a little bit of data from you to get you started 🚀</p>
 
