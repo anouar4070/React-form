@@ -38,7 +38,9 @@ export default function Login() {
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" ref={email} />
-          <div className="control-error">{emailIsInvalid && <p>Please enter a valid email</p>}</div>
+          <div className="control-error">
+            {emailIsInvalid && <p>Please enter a valid email</p>}
+          </div>
         </div>
 
         <div className="control no-margin">
