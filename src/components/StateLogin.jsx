@@ -8,8 +8,14 @@ export default function Login() {
     password: "",
   });
 
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+
   const emailIsInvalid =
-  enteredValues.email !==  '' && !enteredValues.email.includes("@");
+    // enteredValues.email !==  '' && !enteredValues.email.includes("@");
+    didEdit.email && !enteredValues.email.includes("@");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -25,6 +31,19 @@ export default function Login() {
     setEnteredValues((prevValues) => ({
       ...prevValues,
       [identifier]: value,
+    }));
+    //marking the field as not being edited anymore, when user restart typing the error msg is gone
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: false,
+    }));
+  }
+
+  function handleInputBlur(identifier) {
+    // When an input field loses focus (blur event), update the edit state
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: true,
     }));
   }
 
@@ -46,6 +65,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur("email")}
             onChange={(event) => handleInputChange("email", event.target.value)}
             value={enteredValues.email}
           />
