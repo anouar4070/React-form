@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Signup() {
+const [passwordsAreNotAqual, setPasswordsAreNotAqual] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -8,6 +12,12 @@ export default function Signup() {
     const acquisitionChannel = fd.getAll("acquisition"); // to extract values of checkbox that have the same name
     const data = Object.fromEntries(fd.entries());
     data.acquisition = acquisitionChannel;
+// since the name contains a '-' we should use this notation 'data[]'
+if (data.password !== data['confirm-password'] ) {
+  setPasswordsAreNotAqual(true);
+  return;
+}
+
     console.log(data);
     //Reset
     //event.target.reset();
@@ -41,7 +51,9 @@ export default function Signup() {
             id="confirm-password"
             type="password"
             name="confirm-password"
+            required
           />
+          <div className="control-error">{passwordsAreNotAqual && <p>Passwords must match.</p>}</div>
         </div>
       </div>
 
