@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./Input";
+import { isEmail, isNotEmpty, hasMinLength } from "../util/validation";
 
 export default function Login() {
   // const [enteredEmail, setEnteredEmail] = useState("");
@@ -16,8 +17,11 @@ export default function Login() {
 
   const emailIsInvalid =
     // enteredValues.email !==  '' && !enteredValues.email.includes("@");
-    didEdit.email && !enteredValues.email.includes("@");
-    const passwordIsInvalid = didEdit.password && enteredValues.password.trim() < 6;
+    didEdit.email &&
+    !isEmail(enteredValues.email) &&
+    !isNotEmpty(enteredValues.email);
+  const passwordIsInvalid =
+    didEdit.password && !hasMinLength(enteredValues.password, 6)
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -69,7 +73,7 @@ export default function Login() {
           onBlur={() => handleInputBlur("email")}
           onChange={(event) => handleInputChange("email", event.target.value)}
           value={enteredValues.email}
-          error={emailIsInvalid && 'Please enter a valid email'}
+          error={emailIsInvalid && "Please enter a valid email"}
         />
         <Input
           label="Password"
@@ -81,8 +85,7 @@ export default function Login() {
             handleInputChange("password", event.target.value)
           }
           value={enteredValues.password}
-          error={passwordIsInvalid && 'Please enter a valid password!'}
-
+          error={passwordIsInvalid && "Please enter a valid password!"}
         />
         {/* <div className="control no-margin">
           <label htmlFor="email">Email</label>
@@ -111,7 +114,6 @@ export default function Login() {
             value={enteredValues.password}
           />
         </div> */}
-
       </div>
 
       <p className="form-actions">
